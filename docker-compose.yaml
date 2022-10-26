@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  clean-arch-api:
+    container_name: clean-arch-api
+    entrypoint: sh -c 'yarn && yarn start:debug'
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/
+      - /app/node_modules/
+    ports:
+      - ${PORT}:${PORT}
+      - ${PORT_DEBUG}:${PORT_DEBUG}
+    networks:
+      - clean-arch-net
+
+networks:
+  clean-arch-net:
