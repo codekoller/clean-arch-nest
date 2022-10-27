@@ -16,6 +16,23 @@ services:
       - ${PORT_DEBUG}:${PORT_DEBUG}
     networks:
       - clean-arch-net
+    depends_on:
+      - clean-arch-mongodb
+
+  clean-arch-mongodb:
+    image: mongo:latest
+    container_name: clean-arch-mongodb
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
+    volumes:
+      - mongodb-data/data/db
+    ports:
+      - ${MONGODB_PORT}:${MONGODB_PORT}
+    networks:
+      - clean-arch-net
 
 networks:
   clean-arch-net:
+
+volumes:
+  mongodb-data:
