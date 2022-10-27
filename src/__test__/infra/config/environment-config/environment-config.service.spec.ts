@@ -1,18 +1,23 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EnvironmentConfigService } from 'src/infra/config/environment-config/environment-config.service';
+import { EnvironmentConfigService } from '../../../../infra/config/environment-config/environment-config.service';
+import { CreateMockEnvironmentConfig } from './mocks/create-mock-environment-config';
 
 describe('EnvironmentConfigService', () => {
   let service: EnvironmentConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [EnvironmentConfigService],
-    }).compile();
+    const module = await CreateMockEnvironmentConfig();
 
-    service = module.get<EnvironmentConfigService>(EnvironmentConfigService);
+    service = module.service;
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should be get database uri', () => {
+    const result = service.getDatabaseConfig();
+    jest.spyOn(service, 'getDatabaseConfig').mockImplementation(() => result);
+
+    expect(service.getDatabaseConfig()).toBe(result);
   });
 });
